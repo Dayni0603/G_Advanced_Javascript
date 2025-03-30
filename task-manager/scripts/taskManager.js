@@ -1,18 +1,22 @@
 import { Task } from './task.js';
+import { UI } from './ui.js';
 
 export class TaskManager {
-    constructor() {
+    constructor(ui) {
         this.tasks = [];
+        this.ui = ui;
     }
 
     addTask(task) {
         this.tasks.push(task);
         this.saveTasks();
+        this.ui.renderTasks();
     }
 
     deleteTask(taskId) {
         this.tasks = this.tasks.filter(task => task.id !== taskId);
         this.saveTasks();
+        this.ui.renderTasks();
     }
 
     completeTask(taskId) {
@@ -20,6 +24,7 @@ export class TaskManager {
         if (task) {
             task.status = 'done';
             this.saveTasks();
+            this.ui.renderTasks();
         }
     }
 
@@ -28,6 +33,7 @@ export class TaskManager {
         if (task) {
             Object.assign(task, newData);
             this.saveTasks();
+            this.ui.renderTasks();
         }
     }
 

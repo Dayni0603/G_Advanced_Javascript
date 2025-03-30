@@ -2,7 +2,7 @@ import { TaskManager } from './taskManager.js';
 
 export class UI {
     constructor() {
-        this.taskManager = new TaskManager();
+        this.taskManager = new TaskManager(this);
         this.taskManager.loadTasks();
     }
 
