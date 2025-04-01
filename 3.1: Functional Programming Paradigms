@@ -1,0 +1,60 @@
+function processName(name){
+  const trimmed = name.trim();
+  const lowered = trimmed.toLowerCase();
+  return `@${lowered}`
+}
+
+console.log(processName(" DANAYIT "))
+
+function trimString(str){
+  return str.trim();
+}
+
+function toLowerCase(str){
+  return str.toLowerCase();
+}
+
+function addPriFix(str){
+  return `@${str}`
+}
+
+console.log(addPriFix(toLowerCase(trimString(" DANAYIT "))))
+
+function compose(f,g){
+  return function(x){
+    return f(g(x))
+  }
+}
+
+const userName = compose(addPriFix, compose(toLowerCase, trimString));
+
+console.log(userName(" DANAYIT "));
+
+function addCustomPrefix(pri){
+  return function (name){
+    return `${pri}${name}`;
+  };
+}
+
+const symbole = addCustomPrefix("@");
+
+console.log(symbole(" DANAYIT "))
+
+console.log(addCustomPrefix("&")(" DANAYIT "))
+
+
+
+function formatName(pri, max, name){
+  return `${pri}${name.substring(0, max)}`;
+}
+
+function partialApplay(fn, ...fixedArg){
+  return function(...remaning){
+    return fn(...fixedArg, ...remaning)
+  }
+}
+
+const shortHandle = partialApplay(formatName, "@", 8);
+
+console.log(shortHandle("DANAYITMULUGETA"));
+console.log(shortHandle("DAM"));
