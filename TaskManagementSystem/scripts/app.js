@@ -1,54 +1,38 @@
-// MODAL FUNCTIONALITY WITH DESTRUCTURING
+const { BehaviorSubject } = rxjs;
+
+// DOM References
 const modal = document.getElementById('taskModal');
 const openModalBtn = document.getElementById('openModalBtn');
 const closeModalBtn = document.querySelector('.close-modal');
 const taskForm = document.getElementById('taskForm');
 
-// REACTIVE PROGRAMMING: Simple Observable Pattern
-class TaskObservable {
-  constructor() {
-    this.subscribers = [];
-    this.tasks = JSON.parse(localStorage.getItem('tasks')) || [];
-  }
+// RxJS Store
+const taskSubject = new BehaviorSubject(
+  JSON.parse(localStorage.getItem('tasks')) || []
+);
 
-  subscribe(callback) {
-    this.subscribers.push(callback);
-    return () => {
-      this.subscribers = this.subscribers.filter(sub => sub !== callback);
-    };
-  }
+const getTasks = () => taskSubject.getValue();
 
-  notify() {
-    this.subscribers.forEach(callback => callback(this.tasks));
-    localStorage.setItem('tasks', JSON.stringify(this.tasks));
-  }
+const setTasks = (tasks) => {
+  taskSubject.next(tasks);
+  localStorage.setItem('tasks', JSON.stringify(tasks));
+};
 
-  getTasks() {
-    return [...this.tasks];
-  }
+const addTask = (task) => setTasks([...getTasks(), task]);
 
-  addTask(task) {
-    this.tasks.push(task);
-    this.notify();
-  }
+const updateTask = (id, updates) => {
+  const tasks = getTasks().map(task =>
+    task.id === id ? { ...task, ...updates } : task
+  );
+  setTasks(tasks);
+};
 
-  updateTask(id, updates) {
-    this.tasks = this.tasks.map(task => 
-      task.id === id ? {...task, ...updates} : task
-    );
-    this.notify();
-  }
+const deleteTask = (id) => {
+  const tasks = getTasks().filter(task => task.id !== id);
+  setTasks(tasks);
+};
 
-  deleteTask(id) {
-    this.tasks = this.tasks.filter(task => task.id !== id);
-    this.notify();
-  }
-}
-
-// Create observable instance
-const taskStore = new TaskObservable();
-
-// OBJECT-ORIENTED PROGRAMMING: Task Class
+// Task Class
 class Task {
   constructor({ title, description, dueDate, priority, status = 'todo', id = Date.now() }) {
     this.title = title;
@@ -59,7 +43,6 @@ class Task {
     this.id = id;
   }
 
-  // Factory method using destructuring
   static createFromForm({ taskTitle, taskDesc, taskDueDate, taskPriority }, status = 'todo') {
     return new Task({
       title: taskTitle.value,
@@ -70,239 +53,121 @@ class Task {
     });
   }
 
-  // Method to format due date
   getFormattedDueDate() {
-    if (!this.dueDate) return 'No date';
     const options = { year: 'numeric', month: 'short', day: 'numeric' };
     return new Date(this.dueDate).toLocaleDateString('en-US', options);
   }
 }
 
-// HIGHER-ORDER FUNCTIONS: Task operations
-const taskOperations = {
-  complete: (task) => ({ ...task, status: 'done' }),
-  moveToInProgress: (task) => ({ ...task, status: 'inProgress' }),
-  moveToTodo: (task) => ({ ...task, status: 'todo' }),
-  update: (task, updates) => ({ ...task, ...updates })
-};
-
-// ASYNC PROGRAMMING: Simulate API calls
-const taskAPI = {
-  saveTasks: (tasks) => new Promise(resolve => {
-    setTimeout(() => {
-      localStorage.setItem('tasks', JSON.stringify(tasks));
-      resolve(true);
-    }, 500);
-  }),
-  
-  fetchTasks: () => new Promise(resolve => {
-    setTimeout(() => {
-      const tasks = JSON.parse(localStorage.getItem('tasks')) || [];
-      resolve(tasks);
-    }, 500);
-  })
-};
-
-// DOM OPERATIONS
 const DOM = {
-  // Open modal
   openModal: () => {
     modal.classList.add('show');
     document.getElementById('taskTitle').focus();
   },
-
-  // Close modal
-  closeModal: () => {
-    modal.classList.remove('show');
-  },
-
-  // Clear all tasks from columns
-  clearTasks: () => {
-    document.querySelectorAll('.column').forEach(column => {
-      column.querySelectorAll('.task').forEach(task => task.remove());
-    });
-  },
-
-  // Create task HTML element with destructuring
+  closeModal: () => modal.classList.remove('show'),
+  clearTasks: () => document.querySelectorAll('.task').forEach(t => t.remove()),
   createTaskElement: (task) => {
-    const taskObj = new Task(task);
-    const taskElement = document.createElement('div');
-    taskElement.className = `task ${taskObj.priority}`;
-    taskElement.dataset.id = taskObj.id;
-    taskElement.draggable = true;
-    
-    taskElement.innerHTML = `
+    const t = new Task(task);
+    const el = document.createElement('div');
+    el.className = `task ${t.priority}`;
+    el.dataset.id = t.id;
+    el.draggable = true;
+    el.innerHTML = `
       <div class="task-header">
-        <span class="task-title">${taskObj.title}</span>
-        <span class="priority-badge ${taskObj.priority}">${taskObj.priority}</span>
+        <span class="task-title">${t.title}</span>
+        <span class="priority-badge ${t.priority}">${t.priority}</span>
       </div>
-      ${taskObj.description ? `<p class="task-desc">${taskObj.description}</p>` : ''}
-      <span class="task-due">Due: ${taskObj.getFormattedDueDate()}</span>
+      ${t.description ? `<p class="task-desc">${t.description}</p>` : ''}
+      <span class="task-due">Due: ${t.getFormattedDueDate()}</span>
       <div class="actions">
         <button class="complete">✔ Complete</button>
         <button class="edit">✏ Edit</button>
         <button class="delete">❌ Delete</button>
       </div>
     `;
-    
-    // Add drag event directly to the element
-    taskElement.addEventListener('dragstart', handleDragStart);
-    
-    return taskElement;
+    el.addEventListener('dragstart', handleDragStart);
+    return el;
   },
-
-  // Render all tasks
   renderTasks: (tasks) => {
     DOM.clearTasks();
-    
-    // Group tasks by status using reduce (higher-order function)
-    const tasksByStatus = tasks.reduce((acc, task) => {
-      if (!acc[task.status]) acc[task.status] = [];
-      acc[task.status].push(task);
+    const byStatus = tasks.reduce((acc, t) => {
+      acc[t.status] = acc[t.status] || [];
+      acc[t.status].push(t);
       return acc;
     }, {});
-    
-    // Add tasks to their respective columns
-    Object.entries(tasksByStatus).forEach(([status, tasks]) => {
-      const column = document.getElementById(status);
-      if (column) {
-        tasks.forEach(task => {
-          const taskElement = DOM.createTaskElement(task);
-          column.appendChild(taskElement);
-        });
-      }
+    Object.entries(byStatus).forEach(([status, taskList]) => {
+      const col = document.getElementById(status);
+      taskList.forEach(t => col.appendChild(DOM.createTaskElement(t)));
     });
   }
 };
 
-// Drag and drop handlers
+// Drag & Drop Setup
 function handleDragStart(e) {
   e.dataTransfer.setData('text/plain', e.target.dataset.id);
-  e.dataTransfer.effectAllowed = 'move';
 }
 
 function setupDragAndDrop() {
-  document.querySelectorAll('.column').forEach(column => {
-    column.addEventListener('dragover', (e) => {
+  document.querySelectorAll('.column').forEach(col => {
+    col.addEventListener('dragover', (e) => e.preventDefault());
+    col.addEventListener('drop', (e) => {
       e.preventDefault();
-      e.dataTransfer.dropEffect = 'move';
-      column.classList.add('drop-zone');
-    });
-
-    column.addEventListener('dragleave', () => {
-      column.classList.remove('drop-zone');
-    });
-
-    column.addEventListener('drop', async (e) => {
-      e.preventDefault();
-      column.classList.remove('drop-zone');
-      
-      const taskId = parseInt(e.dataTransfer.getData('text/plain'));
-      const newStatus = column.id;
-      
-      try {
-        const task = taskStore.getTasks().find(t => t.id === taskId);
-        if (task && task.status !== newStatus) {
-          const updatedTask = { ...task, status: newStatus };
-          await taskAPI.saveTasks(
-            taskStore.getTasks().map(t => t.id === taskId ? updatedTask : t)
-          );
-          taskStore.updateTask(taskId, { status: newStatus });
-        }
-      } catch (error) {
-        console.error('Failed to update task status:', error);
-      }
+      const id = parseInt(e.dataTransfer.getData('text/plain'));
+      const newStatus = col.id;
+      const task = getTasks().find(t => t.id === id);
+      if (task && task.status !== newStatus) updateTask(id, { status: newStatus });
     });
   });
 }
 
-// EVENT LISTENERS
-openModalBtn.addEventListener('click', DOM.openModal);
-closeModalBtn.addEventListener('click', DOM.closeModal);
-
-// Form submission with destructuring and async/await
+// Form Handling
 let isEditing = false;
 let currentEditingId = null;
 
-taskForm.addEventListener('submit', async function(e) {
+openModalBtn.addEventListener('click', DOM.openModal);
+closeModalBtn.addEventListener('click', DOM.closeModal);
+
+taskForm.addEventListener('submit', function(e) {
   e.preventDefault();
-  
-  try {
-    if (isEditing && currentEditingId) {
-      // Editing existing task - preserve status
-      const originalTask = taskStore.getTasks().find(t => t.id === currentEditingId);
-      const status = originalTask ? originalTask.status : 'todo';
-      
-      // Create updated task with original status
-      const updatedTask = Task.createFromForm(this.elements, status);
-      updatedTask.id = currentEditingId;
-      
-      await taskAPI.saveTasks(
-        taskStore.getTasks().map(t => t.id === currentEditingId ? updatedTask : t)
-      );
-      taskStore.updateTask(currentEditingId, updatedTask);
-    } else {
-      // Creating new task
-      const task = Task.createFromForm(this.elements);
-      await taskAPI.saveTasks([...taskStore.getTasks(), task]);
-      taskStore.addTask(task);
-    }
-    
-    // Reset form and state
-    this.reset();
-    DOM.closeModal();
-    isEditing = false;
-    currentEditingId = null;
-  } catch (error) {
-    console.error('Failed to save task:', error);
-    alert('Failed to save task. Please try again.');
+  const elements = this.elements;
+  const formData = Task.createFromForm(elements);
+
+  if (isEditing && currentEditingId) {
+    formData.id = currentEditingId;
+    const original = getTasks().find(t => t.id === currentEditingId);
+    formData.status = original?.status || 'todo';
+    updateTask(currentEditingId, formData);
+  } else {
+    addTask(formData);
   }
+
+  this.reset();
+  DOM.closeModal();
+  isEditing = false;
+  currentEditingId = null;
 });
 
-// Subscribe to task changes (reactive programming)
-const unsubscribe = taskStore.subscribe(tasks => {
-  DOM.renderTasks(tasks);
-});
-
-// Initialize with existing tasks and setup drag and drop
-(async () => {
-  try {
-    const tasks = await taskAPI.fetchTasks();
-    // Clear existing tasks before adding fetched ones to prevent duplication
-    taskStore.tasks = [];
-    tasks.forEach(task => taskStore.addTask(task));
-    setupDragAndDrop();
-  } catch (error) {
-    console.error('Failed to load tasks:', error);
-  }
-})();
-
-// Task actions with destructuring and higher-order functions
-document.addEventListener('click', (e) => {
-  const taskElement = e.target.closest('.task');
-  if (!taskElement) return;
-  
-  const taskId = parseInt(taskElement.dataset.id);
-  const task = taskStore.getTasks().find(t => t.id === taskId);
+// Handle task actions
+addEventListener('click', (e) => {
+  const el = e.target.closest('.task');
+  if (!el) return;
+  const id = parseInt(el.dataset.id);
+  const task = getTasks().find(t => t.id === id);
   if (!task) return;
 
-  if (e.target.classList.contains('delete')) {
-    taskStore.deleteTask(taskId);
-  } else if (e.target.classList.contains('complete')) {
-    const updatedTask = taskOperations.complete(task);
-    taskStore.updateTask(taskId, updatedTask);
-  } else if (e.target.classList.contains('edit')) {
-    // Set editing state
+  if (e.target.classList.contains('delete')) deleteTask(id);
+  if (e.target.classList.contains('complete')) updateTask(id, { status: 'done' });
+  if (e.target.classList.contains('edit')) {
     isEditing = true;
-    currentEditingId = taskId;
-    
-    // Populate form with task data
-    document.getElementById('taskTitle').value = task.title;
-    document.getElementById('taskDesc').value = task.description;
-    document.getElementById('taskDueDate').value = task.dueDate;
-    document.getElementById('taskPriority').value = task.priority;
-    
-    // Open modal
+    currentEditingId = id;
+    taskForm.taskTitle.value = task.title;
+    taskForm.taskDesc.value = task.description;
+    taskForm.taskDueDate.value = task.dueDate;
+    taskForm.taskPriority.value = task.priority;
     DOM.openModal();
   }
 });
+
+// Subscribe to taskSubject
+setupDragAndDrop();
+taskSubject.subscribe(DOM.renderTasks);
