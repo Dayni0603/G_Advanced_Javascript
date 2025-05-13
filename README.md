@@ -52,6 +52,21 @@ Here is a list of projects included in this repository:
                   - Inheritance: SavingsAccount inherits from BankAccount
                   - Polymorphism: SavingsAccount overrides the withdraw() method
 
+4. **Project 4: 5.1 Modern JavaScript (ES6+) Features – User Info Formatter**
+   - Description: This project demonstrates modern JavaScript (ES6+) syntax and features through a simple user information formatter. It showcases how to use object destructuring with default values, the rest 
+                  parameter to collect remaining properties, and the spread operator to clone and update objects immutably. The function displayUserInfo takes a user object and neatly extracts key properties 
+                  while preserving flexibility for any additional fields. This approach improves code readability and reduces boilerplate, aligning with modern JavaScript best practices.
+   - Technologies: JavaScript (ES6+)
+                   Modern language features:
+
+                 - Destructuring with defaults: { name = "Guest", age = 18 }
+
+                 - Rest parameters: ...rest for additional properties
+
+                 - Spread operator: ...user to clone and override properties
+
+
+
 
 
 ## Getting Started
