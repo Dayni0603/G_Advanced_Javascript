@@ -26,11 +26,16 @@ Here is a list of projects included in this repository:
                   clean and format a name, use closures to create custom prefix functions, and apply partial application to fix certain arguments in advance. This approach promotes clarity, reusability, and 
                   separation of concerns—key functional programming principles.
    - Technologies: JavaScript (ES6+)
+
                    Functional programming:
-                   Pure functions (trimString, toLowerCase, addPriFix)
-                   Function composition (compose)
-                   Closures (addCustomPrefix)
-                   Partial application (partialApplay)
+
+                   - Pure functions (trimString, toLowerCase, addPriFix)
+
+                   - Function composition (compose)
+
+                   - Closures (addCustomPrefix)
+
+                   - Partial application (partialApplay)
 
 3. **Project 3: 4.1 Object-Oriented Programming Principles – Bank Account System**
    - Description: This project demonstrates the four core principles of Object-Oriented Programming (OOP)—Encapsulation, Abstraction, Inheritance, and Polymorphism—using a simple bank account system built in 
