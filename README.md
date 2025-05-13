@@ -20,6 +20,18 @@ Here is a list of projects included in this repository:
                   It is built using pure JavaScript (without frameworks) to demonstrate higher-order functions, closures, and async/await.
    - Technologies: JavaScript.
 
+2. **Project 2: 3.1: Functional Programming Paradigms**
+   - Description: This mini project demonstrates core functional programming paradigms in JavaScript using a simple name formatting use case. The code illustrates how to use pure functions, higher-order 
+                  functions, function composition, closures, and partial application to create reusable, modular utilities for transforming user input. For example, it shows how to build a composed function to 
+                  clean and format a name, use closures to create custom prefix functions, and apply partial application to fix certain arguments in advance. This approach promotes clarity, reusability, and 
+                  separation of concerns—key functional programming principles.
+   - Technologies: JavaScript (ES6+)
+                   Functional programming:
+                   Pure functions (trimString, toLowerCase, addPriFix)
+                   Function composition (compose)
+                   Closures (addCustomPrefix)
+                   Partial application (partialApplay)
+
 
 
 ## Getting Started
