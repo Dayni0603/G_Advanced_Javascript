@@ -44,11 +44,13 @@ Here is a list of projects included in this repository:
                   inheritance and method overriding (polymorphism) with a custom withdrawal limit. A method for adding interest is also included to highlight class-specific functionality. This code offers a clean 
                   and practical demonstration of how OOP supports code organization, reusability, and maintainability.
    - Technologies: JavaScript (ES6+)
-                  Object-Oriented Programming:
-                  Encapsulation: _balance as a pseudo-private property with getter/setter
-                  Abstraction: deposit() and withdraw() methods hiding logic from external use
-                  Inheritance: SavingsAccount inherits from BankAccount
-                  Polymorphism: SavingsAccount overrides the withdraw() method
+
+                 Object-Oriented Programming:
+
+                  - Encapsulation: _balance as a pseudo-private property with getter/setter
+                  - Abstraction: deposit() and withdraw() methods hiding logic from external use
+                  - Inheritance: SavingsAccount inherits from BankAccount
+                  - Polymorphism: SavingsAccount overrides the withdraw() method
 
 
 
