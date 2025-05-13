@@ -84,6 +84,14 @@ Here is a list of projects included in this repository:
                     Authentication: JWT (JSON Web Tokens)
                     API Architecture: RESTful API
 
+NodeJs:  https://github.com/Dayni0603/e_com_api.git
+
+Vue:     https://github.com/Dayni0603/e_com_web_vue.git
+
+React:   https://github.com/Dayni0603/e_com_web_react.git
+
+Angular: https://github.com/Dayni0603/e_com_web_angular.git
+
 
 
 
