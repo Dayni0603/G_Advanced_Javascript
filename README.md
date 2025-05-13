@@ -38,20 +38,18 @@ Here is a list of projects included in this repository:
                    - Partial application (partialApply)
 
 
-3. **Project 4: 1.2 Modern JavaScript (ES6+) Features – User Info Formatter**
+3. **Project 3: 1.2 Modern JavaScript (ES6+) Features – User Info Formatter**
    - Description: This project demonstrates modern JavaScript (ES6+) syntax and features through a simple user information formatter. It showcases how to use object destructuring with default values, the rest 
                   parameter to collect remaining properties, and the spread operator to clone and update objects immutably. The function displayUserInfo takes a user object and neatly extracts key properties 
                   while preserving flexibility for any additional fields. This approach improves code readability and reduces boilerplate, aligning with modern JavaScript best practices.
    - Technologies: JavaScript (ES6+)
                    Modern language features:
 
-                 - Destructuring with defaults: { name = "Guest", age = 18 }
+                  ✅ Destructuring with defaults: { name = "Guest", age = 18 }
+                  ✅ Rest parameters: ...rest for additional properties
+                  ✅ Spread operator: ...user to clone and override properties
 
-                 - Rest parameters: ...rest for additional properties
-
-                 - Spread operator: ...user to clone and override properties
-
-4. **Project 3: 2.1 Object-Oriented Programming Principles – Bank Account System**
+4. **Project 4: 2.1 Object-Oriented Programming Principles – Bank Account System**
    - Description: This project demonstrates the four core principles of Object-Oriented Programming (OOP)—Encapsulation, Abstraction, Inheritance, and Polymorphism—using a simple bank account system built in 
                   JavaScript.
                   The BankAccount class encapsulates balance data using getters and setters, and abstracts the logic of deposit and withdrawal operations. The SavingsAccount class extends BankAccount, showcasing 
@@ -61,10 +59,24 @@ Here is a list of projects included in this repository:
 
                  Object-Oriented Programming:
 
-                  - Encapsulation: _balance as a pseudo-private property with getter/setter
-                  - Abstraction: deposit() and withdraw() methods hiding logic from external use
-                  - Inheritance: SavingsAccount inherits from BankAccount
-                  - Polymorphism: SavingsAccount overrides the withdraw() method
+                  ✅ Encapsulation: _balance as a pseudo-private property with getter/setter
+                  ✅ Abstraction: deposit() and withdraw() methods hiding logic from external use
+                  ✅ Inheritance: SavingsAccount inherits from BankAccount
+                  ✅ Polymorphism: SavingsAccount overrides the withdraw() method
+
+5. **Project 5: 3.3 Reactive Task Management System (Pure JavaScript + RxJS)**
+   - Description: This is a Trello-like task management app built using vanilla JavaScript and RxJS. It supports task creation, editing, drag-and-drop between columns (todo, in-progress, done), and persistent 
+                  state using localStorage. It also introduces a reactive store using BehaviorSubject, making state changes immediately reflected in the DOM.
+                  and practical demonstration of how OOP supports code organization, reusability, and maintainability.
+   - Technologies: JavaScript (ES6+)
+
+                 The app demonstrates:
+
+                  ✅ Modern Object-Oriented JavaScript
+                  ✅ Reactive programming using RxJS (BehaviorSubject)
+                  ✅ Drag-and-drop functionality
+                  ✅ DOM manipulation without any frameworks
+                  ✅ Clean separation of concerns using utility methods and modular logic
 
 
 
