@@ -32,6 +32,19 @@ Here is a list of projects included in this repository:
                    Closures (addCustomPrefix)
                    Partial application (partialApplay)
 
+3. **Project 3: 4.1 Object-Oriented Programming Principles – Bank Account System**
+   - Description: This project demonstrates the four core principles of Object-Oriented Programming (OOP)—Encapsulation, Abstraction, Inheritance, and Polymorphism—using a simple bank account system built in 
+                  JavaScript.
+                  The BankAccount class encapsulates balance data using getters and setters, and abstracts the logic of deposit and withdrawal operations. The SavingsAccount class extends BankAccount, showcasing 
+                  inheritance and method overriding (polymorphism) with a custom withdrawal limit. A method for adding interest is also included to highlight class-specific functionality. This code offers a clean 
+                  and practical demonstration of how OOP supports code organization, reusability, and maintainability.
+   - Technologies: JavaScript (ES6+)
+                  Object-Oriented Programming:
+                  Encapsulation: _balance as a pseudo-private property with getter/setter
+                  Abstraction: deposit() and withdraw() methods hiding logic from external use
+                  Inheritance: SavingsAccount inherits from BankAccount
+                  Polymorphism: SavingsAccount overrides the withdraw() method
+
 
 
 ## Getting Started
