@@ -29,13 +29,10 @@ Here is a list of projects included in this repository:
 
                    Functional programming:
 
-                   - Pure functions (trimString, toLowerCase, addPriFix)
-
-                   - Function composition (compose)
-
-                   - Closures (addCustomPrefix)
-
-                   - Partial application (partialApply)
+                  ✅  Pure functions (trimString, toLowerCase, addPriFix)
+                  ✅ Function composition (compose)
+                  ✅ Closures (addCustomPrefix)
+                  ✅ Partial application (partialApply)
 
 
 3. **Project 3: 1.2 Modern JavaScript (ES6+) Features – User Info Formatter**
