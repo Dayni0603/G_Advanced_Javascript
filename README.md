@@ -75,6 +75,15 @@ Here is a list of projects included in this repository:
                   ✅ DOM manipulation without any frameworks
                   ✅ Clean separation of concerns using utility methods and modular logic
 
+6. **Project 6: E-Commerce System (Node.js API + Vue, React, Angular Frontends)**
+   - Description: This project is a full-stack E-Commerce System with a Node.js API backend and frontend implementations using Vue.js, React, and Angular. It provides a complete e-commerce platform where users 
+                  can browse products, manage their cart, and complete purchases. Each frontend framework (Vue.js, React, Angular) interacts with the same Node.js API.
+   - Technologies: Technologies
+                    Backend: Node.js, Express.js
+                    Database: MongoDB (with Mongoose)
+                    Authentication: JWT (JSON Web Tokens)
+                    API Architecture: RESTful API
+
 
 
 
