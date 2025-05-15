@@ -93,7 +93,7 @@ React:   https://github.com/Dayni0603/e_com_web_react.git
 Angular: https://github.com/Dayni0603/e_com_web_angular.git
 
 
-
+#NB:  any code change added after live code will be added to the release/v1 branch,h so use the develop branch for practice, and if stuck or need to ,cross-check look at the release/v1 branch#
 
 
 ## Getting Started
