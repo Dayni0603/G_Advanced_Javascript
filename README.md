@@ -29,7 +29,7 @@ Here is a list of projects included in this repository:
 
                    Functional programming:
 
-                  ✅  Pure functions (trimString, toLowerCase, addPriFix)
+                  ✅ Pure functions (trimString, toLowerCase, addPriFix)
                   ✅ Function composition (compose)
                   ✅ Closures (addCustomPrefix)
                   ✅ Partial application (partialApply)
